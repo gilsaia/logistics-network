@@ -1,0 +1,80 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Sample business network definition.
+ */
+namespace org.logistics
+/**
+ * Express Condition
+ */
+enum CargoType{
+  o unfilled
+  o transit
+  o wait_for_sign
+  o normal
+}
+/**
+ * Person
+ */
+participant Person identified by PersonId {
+  o String PersonId
+  o String PersonName
+}
+/**
+ * Cargo
+ */
+asset Cargo identified by CargoId {
+  o String CargoId
+  o String CargoName
+  o Boolean IsOnSell default=false
+  o CargoType CargoCondition
+  --> Person owner
+}
+/**
+ * OnSell
+ */
+transaction CargoOnSell{
+  --> Cargo Item
+  --> Person Seller
+}
+/**
+ * Buy
+ */
+transaction BuyCargo{
+  --> Cargo Item
+  --> Person Buyer
+  --> Person Seller
+}
+/**
+ * Transit
+ */
+transaction Transit{
+  -->Cargo Item
+  -->Person Buyer
+  -->Person Seller
+}
+/**
+ * CargoArrive
+ */
+transaction CargoArrive{
+  -->Cargo Item
+  -->Person Buyer
+}
+/**
+ * ReceiveCargo
+ */
+transaction ReceiveCargo{
+  -->Cargo Item
+  -->Person Buyer
+}

@@ -1,0 +1,6 @@
+query OwnItem {
+    description: "Select all Items owned by Person"
+    statement:
+        SELECT org.logistics.Cargo
+            WHERE (_$nameparam==owner.PersonName )
+}
